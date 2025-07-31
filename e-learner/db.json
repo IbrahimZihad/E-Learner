@@ -19,14 +19,14 @@
     {
       "id": 1,
       "title": "React for Beginners",
-      "description": "Learn the basics of React including components, hooks, and state management.",
+      "description": "Learn the basics of React.",
       "instructor": "John Doe",
       "thumbnail": "https://via.placeholder.com/150"
     },
     {
       "id": 2,
       "title": "JavaScript Mastery",
-      "description": "Deep dive into ES6+, asynchronous JavaScript, and DOM manipulation.",
+      "description": "Deep dive into JS fundamentals.",
       "instructor": "Jane Smith",
       "thumbnail": "https://via.placeholder.com/150"
     }
@@ -35,23 +35,9 @@
     {
       "id": 1,
       "courseId": 1,
-      "question": "What is a React component?",
-      "options": ["A database", "A UI piece", "A loop", "A function only"],
-      "answer": "A UI piece"
-    },
-    {
-      "id": 2,
-      "courseId": 1,
-      "question": "What hook is used for state?",
-      "options": ["useState", "useEffect", "useRef", "useMemo"],
-      "answer": "useState"
-    },
-    {
-      "id": 3,
-      "courseId": 2,
-      "question": "What does `let` do in JavaScript?",
-      "options": ["Defines a variable", "Creates a loop", "Adds an event", "Defines a class"],
-      "answer": "Defines a variable"
+      "question": "What is JSX?",
+      "options": ["HTML", "JavaScript", "A syntax extension", "CSS"],
+      "answer": "A syntax extension"
     }
   ],
   "learningProgress": [
@@ -59,15 +45,16 @@
       "id": 1,
       "userId": 1,
       "courseId": 1,
-      "completed": false,
-      "progress": 30
-    },
+      "progress": 70,
+      "completed": false
+    }
+  ],
+  "quizScores": [
     {
-      "id": 2,
+      "id": 1,
       "userId": 1,
-      "courseId": 2,
-      "completed": true,
-      "progress": 100
+      "courseId": 1,
+      "score": 80
     }
   ]
 }

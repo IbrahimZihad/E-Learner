@@ -16,6 +16,10 @@ import Quizzes from "../pages/Portal/Quizzes";
 
 // Admin pages
 import Dashboard from "../admin/Dashboard";
+import EditCoursePage from "../admin/EditCoursePage";
+import AddCoursePage from "../admin/AddCoursePage";
+import EditQuizPage from "../admin/EditQuizPage";
+import AddQuizPage from "../admin/AddQuizPage";
 
 // All route definitions
 export const allRoutes = [
@@ -60,6 +64,30 @@ export const allRoutes = [
     {
         path: "/admin/dashboard",
         element: Dashboard,
+        isPrivate: true,
+        role: "admin",
+    },
+    {
+        path: "/admin/courses/add",
+        element: AddCoursePage,
+        isPrivate: true,
+        role: "admin",
+    },
+    {
+        path: "/admin/courses/edit/:courseId",
+        element: EditCoursePage,
+        isPrivate: true,
+        role: "admin",
+    },
+    {
+        path: "/admin/quizzes/add",
+        element: AddQuizPage,
+        isPrivate: true,
+        role: "admin",
+    },
+    {
+        path: "/admin/quizzes/edit/:quizId",
+        element: EditQuizPage,
         isPrivate: true,
         role: "admin",
     },
