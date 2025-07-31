@@ -5,6 +5,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* Hero Section */}
+      <div id="top">
       <section className="bg-blue-600 text-white py-20 px-4 text-center">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
@@ -21,9 +22,10 @@ const HomePage = () => {
           </Link>
         </div>
       </section>
+      </div>
 
       {/* Why Us Section */}
-      <section className="py-16 px-4">
+      <section id="why-us" className="py-16 px-4">
         <div className="max-w-6xl mx-auto text-center mb-10">
           <h2 className="text-3xl font-bold mb-4">Why Choose Us?</h2>
           <p className="text-gray-600">

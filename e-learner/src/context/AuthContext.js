@@ -1,17 +1,17 @@
-import React, {createContext, useState, useEffect} from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true); // 👈 Added
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const storedUser = localStorage.getItem("authUser");
         if (storedUser) {
             setUser(JSON.parse(storedUser));
         }
-        setLoading(false); // 👈 Done loading
+        setLoading(false);
     }, []);
 
     const login = (userData) => {
@@ -24,12 +24,19 @@ export const AuthProvider = ({children}) => {
         localStorage.removeItem("authUser");
     };
 
-    if (loading) return <div className="flex items-center justify-center h-screen">
-        <p>Loading...</p>
-    </div>;
+    const isAuthenticated = !!user;
+    const role = user?.role || "guest";
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <p className="text-lg font-semibold">Loading...</p>
+            </div>
+        );
+    }
 
     return (
-        <AuthContext.Provider value={{user, login, logout}}>
+        <AuthContext.Provider value={{ user, login, logout, isAuthenticated, role }}>
             {children}
         </AuthContext.Provider>
     );

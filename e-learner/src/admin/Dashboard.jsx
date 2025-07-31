@@ -48,7 +48,7 @@ const Dashboard = () => {
             </section>
 
             {/* Courses Section */}
-            <section>
+            <section id="courses-section">
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-2xl font-semibold">All Courses</h2>
                     <button
@@ -69,7 +69,7 @@ const Dashboard = () => {
             </section>
 
             {/* Quizzes Section */}
-            <section>
+            <section id="quizzes-section" className="mt-10">
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-2xl font-semibold">All Quizzes</h2>
                     <button
