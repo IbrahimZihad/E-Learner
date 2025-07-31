@@ -1,0 +1,73 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Fahim",
+      "email": "fahim@example.com",
+      "password": "123456",
+      "role": "user"
+    },
+    {
+      "id": 2,
+      "name": "Admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "role": "admin"
+    }
+  ],
+  "courses": [
+    {
+      "id": 1,
+      "title": "React for Beginners",
+      "description": "Learn the basics of React including components, hooks, and state management.",
+      "instructor": "John Doe",
+      "thumbnail": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 2,
+      "title": "JavaScript Mastery",
+      "description": "Deep dive into ES6+, asynchronous JavaScript, and DOM manipulation.",
+      "instructor": "Jane Smith",
+      "thumbnail": "https://via.placeholder.com/150"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": 1,
+      "courseId": 1,
+      "question": "What is a React component?",
+      "options": ["A database", "A UI piece", "A loop", "A function only"],
+      "answer": "A UI piece"
+    },
+    {
+      "id": 2,
+      "courseId": 1,
+      "question": "What hook is used for state?",
+      "options": ["useState", "useEffect", "useRef", "useMemo"],
+      "answer": "useState"
+    },
+    {
+      "id": 3,
+      "courseId": 2,
+      "question": "What does `let` do in JavaScript?",
+      "options": ["Defines a variable", "Creates a loop", "Adds an event", "Defines a class"],
+      "answer": "Defines a variable"
+    }
+  ],
+  "learningProgress": [
+    {
+      "id": 1,
+      "userId": 1,
+      "courseId": 1,
+      "completed": false,
+      "progress": 30
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "courseId": 2,
+      "completed": true,
+      "progress": 100
+    }
+  ]
+}
