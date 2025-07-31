@@ -1,13 +1,19 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import AppRouter from "./router/router"; // Make sure this file uses generateRoutes()
+import { BrowserRouter, Routes } from "react-router-dom";
+import { generateRoutes } from "./router/routerHelper";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <AppRouter />
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <Navbar />
+            <div className="min-h-screen">
+                <AppRouter />
+            </div>
+            <Footer />
+        </BrowserRouter>
+    );
 };
 
 export default App;
