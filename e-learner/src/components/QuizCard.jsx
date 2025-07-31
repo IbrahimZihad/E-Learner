@@ -1,8 +1,33 @@
-import React from "react";
-
-const QuizCard = ({ quiz, onAnswer, userAnswer, showResult = false }) => {
+const QuizCard = ({
+  quiz,
+  onAnswer,
+  userAnswer,
+  showResult = false,
+  isAdmin = false,
+  onEdit,
+  onDelete
+}) => {
   return (
-    <div className="bg-white shadow-md rounded-xl p-5 mb-6">
+    <div className="bg-white shadow-md rounded-xl p-5 mb-6 relative">
+      {isAdmin && (
+        <div className="absolute top-3 right-3 flex gap-2">
+          <button
+            onClick={() => onEdit(quiz)}
+            className="text-yellow-500 hover:text-yellow-700"
+            title="Edit"
+          >
+            ✏️
+          </button>
+          <button
+            onClick={() => onDelete(quiz.id)}
+            className="text-red-500 hover:text-red-700"
+            title="Delete"
+          >
+            🗑️
+          </button>
+        </div>
+      )}
+
       <h4 className="text-lg font-semibold mb-4">{quiz.question}</h4>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {quiz.options.map((option, index) => {
