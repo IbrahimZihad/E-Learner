@@ -27,7 +27,7 @@ const Navbar = () => {
             navigate('/');
             if (location.pathname === '/') scrollTo('top');
         } else if (role === 'user') {
-            navigate('/learning');
+            navigate('/portal');
         } else if (role === 'admin') {
             navigate('/admin/dashboard');
         }

@@ -1,28 +1,37 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Fahim",
       "email": "fahim@example.com",
+      "password": "user123",
       "role": "user"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Admin",
       "email": "admin@example.com",
+      "password": "admin123",
       "role": "admin"
+    },
+    {
+      "id": "1a72",
+      "name": "Ibrahim",
+      "email": "i@example.com",
+      "password": "1234i",
+      "role": "user"
     }
   ],
   "courses": [
     {
-      "id": 1,
+      "id": "1",
       "title": "React for Beginners",
       "description": "Learn the fundamentals of React.",
       "thumbnail": "https://via.placeholder.com/300x200",
       "createdBy": "admin"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "JavaScript Essentials",
       "description": "Understand JS from scratch.",
       "thumbnail": "https://via.placeholder.com/300x200",
@@ -31,14 +40,14 @@
   ],
   "quizzes": [
     {
-      "id": 1,
+      "id": "1",
       "title": "React Basics Quiz",
       "description": "A quiz on React fundamentals.",
       "courseId": 1,
       "createdBy": "admin"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "JavaScript Syntax Quiz",
       "description": "Check your JS syntax skills.",
       "courseId": 2,
@@ -47,18 +56,13 @@
   ],
   "enrollments": [
     {
-      "id": 1,
-      "userId": 1,
-      "courseId": 1,
-      "progress": 40
+      "id": "1",
+      "title": "React for Beginners",
+      "description": "Learn the fundamentals of React.",
+      "thumbnail": "https://via.placeholder.com/300x200",
+      "createdBy": "admin",
+      "progress": 0
     }
   ],
-  "attempts": [
-    {
-      "id": 1,
-      "userId": 1,
-      "quizId": 1,
-      "score": 80
-    }
-  ]
+  "attempts": []
 }
