@@ -45,7 +45,7 @@ const Navbar = () => {
                     <>
                         <li className="cursor-pointer hover:text-blue-500" onClick={handleHomeClick}>Home</li>
                         <li className="cursor-pointer hover:text-blue-500" onClick={() => scrollTo('why-us')}>Why Us</li>
-                        <li className="cursor-pointer hover:text-blue-500" onClick={() => navigate('/login')}>Login / Signup</li>
+                        <li className="cursor-pointer hover:text-blue-500" onClick={() => navigate('/login')}>Login</li>
                     </>
                 )}
 
