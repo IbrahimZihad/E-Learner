@@ -13,7 +13,10 @@ const LearningPortal = () => {
   const fetchCourses = async () => {
     try {
       const response = await axios.get("http://localhost:3000/enrollments");
-      setEnrolledCourses(response.data);
+      const validCourses = response.data.filter(
+        (course) => course && course.id && course.title
+      );
+      setEnrolledCourses(validCourses);
     } catch (error) {
       console.error("Failed to fetch courses", error);
     }
@@ -23,7 +26,10 @@ const LearningPortal = () => {
   const fetchQuizzes = async () => {
     try {
       const response = await axios.get("http://localhost:3000/attempts");
-      setAttemptedQuizzes(response.data);
+      const validQuizzes = response.data.filter(
+        (quiz) => quiz && quiz.id && quiz.title
+      );
+      setAttemptedQuizzes(validQuizzes);
     } catch (error) {
       console.error("Failed to fetch quizzes", error);
     }
@@ -33,6 +39,11 @@ const LearningPortal = () => {
     fetchCourses();
     fetchQuizzes();
   }, []);
+
+  // ✅ handle click on enrolled course
+  const handleCourseClick = (courseId) => {
+    navigate(`/learning/${courseId}`);
+  };
 
   return (
     <div className="p-6">
@@ -49,10 +60,17 @@ const LearningPortal = () => {
             Enroll in New Courses
           </button>
         </div>
+
         {enrolledCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {enrolledCourses.map((course) => (
-              <CourseCard key={course.id} course={course} />
+              <div
+                key={course.id}
+                onClick={() => handleCourseClick(course.id)}
+                className="cursor-pointer"
+              >
+                <CourseCard course={course} />
+              </div>
             ))}
           </div>
         ) : (
@@ -71,6 +89,7 @@ const LearningPortal = () => {
             Attempt New Quizzes
           </button>
         </div>
+
         {attemptedQuizzes.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {attemptedQuizzes.map((quiz) => (

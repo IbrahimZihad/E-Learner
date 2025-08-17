@@ -4,6 +4,8 @@ import QuizCard from "../../components/QuizCard";
 
 const Quizzes = () => {
   const [quizzes, setQuizzes] = useState([]);
+  const [answers, setAnswers] = useState({}); // track user answers
+  const [showResults, setShowResults] = useState(false);
 
   const fetchQuizzes = async () => {
     try {
@@ -14,26 +16,16 @@ const Quizzes = () => {
     }
   };
 
-  const handleAttempt = async (quiz) => {
-    const confirmed = window.confirm(`Do you want to attempt the quiz "${quiz.title}"?`);
-    if (!confirmed) return;
+  const handleAnswer = (quizId, option) => {
+    setAnswers((prev) => ({ ...prev, [quizId]: option }));
+  };
 
-    try {
-      const alreadyAttempted = await axios.get(`http://localhost:3000/attempts?id=${quiz.id}`);
-      if (alreadyAttempted.data.length > 0) {
-        alert("You have already attempted this quiz.");
-        return;
-      }
-
-      // Simulate a random score (replace with actual quiz logic if needed)
-      const score = Math.floor(Math.random() * 100);
-      const attemptData = { ...quiz, score };
-
-      await axios.post("http://localhost:3000/attempts", attemptData);
-      alert(`Quiz attempted! You scored ${score}`);
-    } catch (error) {
-      console.error("Attempt failed", error);
+  const handleSubmit = () => {
+    if (Object.keys(answers).length < quizzes.length) {
+      alert("Please answer all quizzes before submitting!");
+      return;
     }
+    setShowResults(true);
   };
 
   useEffect(() => {
@@ -42,14 +34,30 @@ const Quizzes = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Available Quizzes</h1>
+      <h1 className="text-3xl font-bold mb-6">Available Quizzes</h1>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {quizzes.map((quiz) => (
-          <div key={quiz.id} onClick={() => handleAttempt(quiz)} className="cursor-pointer">
-            <QuizCard quiz={quiz} />
-          </div>
+          <QuizCard
+            key={quiz.id}
+            quiz={quiz}
+            onAnswer={(option) => handleAnswer(quiz.id, option)}
+            userAnswer={answers[quiz.id]}
+            showResult={showResults}
+          />
         ))}
       </div>
+
+      {quizzes.length > 0 && !showResults && (
+        <div className="mt-6">
+          <button
+            onClick={handleSubmit}
+            className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+          >
+            Submit Answers
+          </button>
+        </div>
+      )}
     </div>
   );
 };

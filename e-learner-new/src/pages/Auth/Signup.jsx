@@ -31,7 +31,7 @@ const Signup = () => {
       const newUser = { ...formData, role: "user" };
       const createRes = await axios.post("http://localhost:3000/users", newUser);
       login(createRes.data);
-      navigate("/portal/learning");
+      navigate("/portal");
     } catch (err) {
       setError("Signup failed. Try again.");
     }

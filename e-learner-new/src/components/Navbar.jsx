@@ -3,23 +3,23 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
-    const { isAuthenticated, role, logout } = useContext(AuthContext);
+    const { isAuthenticated, role, logout, loading } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Scroll to section (client-side)
+    if (loading) return null; // Prevent flicker of wrong navbar
+
     const scrollTo = (id) => {
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
     };
 
-    // Scroll inside Dashboard if admin
     const scrollToDashboardSection = (sectionId) => {
         navigate('/admin/dashboard');
         setTimeout(() => {
             const el = document.getElementById(sectionId);
             if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 100); // small delay to ensure component is mounted
+        }, 100);
     };
 
     const handleHomeClick = () => {
@@ -35,12 +35,14 @@ const Navbar = () => {
 
     return (
         <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md sticky top-0 z-50">
-            <div className="text-xl font-bold text-blue-600 cursor-pointer" onClick={handleHomeClick}>
+            <div
+                className="text-xl font-bold text-blue-600 cursor-pointer"
+                onClick={handleHomeClick}
+            >
                 LearnMate
             </div>
 
             <ul className="flex space-x-6 text-gray-700 font-medium">
-                {/* Not Logged In */}
                 {!isAuthenticated && (
                     <>
                         <li className="cursor-pointer hover:text-blue-500" onClick={handleHomeClick}>Home</li>
@@ -49,7 +51,6 @@ const Navbar = () => {
                     </>
                 )}
 
-                {/* Logged in as USER */}
                 {isAuthenticated && role === 'user' && (
                     <>
                         <li className="cursor-pointer hover:text-blue-500" onClick={handleHomeClick}>Home</li>
@@ -59,7 +60,6 @@ const Navbar = () => {
                     </>
                 )}
 
-                {/* Logged in as ADMIN */}
                 {isAuthenticated && role === 'admin' && (
                     <>
                         <li className="cursor-pointer hover:text-blue-500" onClick={handleHomeClick}>Home</li>

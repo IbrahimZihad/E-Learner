@@ -20,6 +20,13 @@
       "email": "i@example.com",
       "password": "1234i",
       "role": "user"
+    },
+    {
+      "id": "45f4",
+      "name": "Ripon",
+      "email": "ripon@gmail.com",
+      "password": "ripon",
+      "role": "user"
     }
   ],
   "courses": [
@@ -28,14 +35,42 @@
       "title": "React for Beginners",
       "description": "Learn the fundamentals of React.",
       "thumbnail": "https://via.placeholder.com/300x200",
-      "createdBy": "admin"
+      "createdBy": "admin",
+      "materials": [
+        {
+          "section": "Introduction to React",
+          "content": "<p>React is a JavaScript library for building user interfaces.</p>"
+        },
+        {
+          "section": "JSX Basics",
+          "content": "<p>JSX allows you to write HTML-like code inside JavaScript.</p>"
+        },
+        {
+          "section": "Components",
+          "content": "<p>React apps are made of components, which are reusable UI pieces.</p>"
+        }
+      ]
     },
     {
       "id": "2",
       "title": "JavaScript Essentials",
       "description": "Understand JS from scratch.",
       "thumbnail": "https://via.placeholder.com/300x200",
-      "createdBy": "admin"
+      "createdBy": "admin",
+      "materials": [
+        {
+          "section": "JS Basics",
+          "content": "<p>JavaScript is a scripting language used to create dynamic web pages.</p>"
+        },
+        {
+          "section": "Variables & Data Types",
+          "content": "<p>JS has variables, numbers, strings, booleans, arrays, and objects.</p>"
+        },
+        {
+          "section": "Functions",
+          "content": "<p>Functions are reusable blocks of code in JavaScript.</p>"
+        }
+      ]
     }
   ],
   "quizzes": [
@@ -43,24 +78,56 @@
       "id": "1",
       "title": "React Basics Quiz",
       "description": "A quiz on React fundamentals.",
-      "courseId": 1,
+      "courseId": "1",
       "createdBy": "admin"
     },
     {
       "id": "2",
       "title": "JavaScript Syntax Quiz",
       "description": "Check your JS syntax skills.",
-      "courseId": 2,
+      "courseId": "2",
       "createdBy": "admin"
     }
   ],
   "enrollments": [
+    {
+      "id": "e1",
+      "userId": "1",
+      "courseId": "1",
+      "progress": 0
+    },
+    {
+      "id": "e2",
+      "userId": "1",
+      "courseId": "2",
+      "progress": 0
+    },
+    {
+      "id": "e3",
+      "userId": "1a72",
+      "courseId": "1",
+      "progress": 10
+    },
     {
       "id": "1",
       "title": "React for Beginners",
       "description": "Learn the fundamentals of React.",
       "thumbnail": "https://via.placeholder.com/300x200",
       "createdBy": "admin",
+      "materials": [
+        {
+          "section": "Introduction to React",
+          "content": "<p>React is a JavaScript library for building user interfaces.</p>"
+        },
+        {
+          "section": "JSX Basics",
+          "content": "<p>JSX allows you to write HTML-like code inside JavaScript.</p>"
+        },
+        {
+          "section": "Components",
+          "content": "<p>React apps are made of components, which are reusable UI pieces.</p>"
+        }
+      ],
       "progress": 0
     }
   ],

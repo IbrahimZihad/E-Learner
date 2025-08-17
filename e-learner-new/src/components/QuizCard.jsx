@@ -28,7 +28,9 @@ const QuizCard = ({
         </div>
       )}
 
-      <h4 className="text-lg font-semibold mb-4">{quiz.question}</h4>
+      {/* ✅ FIXED: Show quiz.title instead of quiz.question */}
+      <h4 className="text-lg font-semibold mb-4">{quiz.title}</h4>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {quiz.options.map((option, index) => {
           const isCorrect = showResult && option === quiz.answer;

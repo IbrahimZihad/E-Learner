@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CourseCard from "../../components/CourseCard";
+import { useNavigate } from "react-router-dom"; // ✅ import navigate
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
+  const navigate = useNavigate(); // ✅ initialize navigate
 
   const fetchCourses = async () => {
     try {
@@ -28,6 +30,8 @@ const Courses = () => {
       const enrollmentData = { ...course, progress: 0 };
       await axios.post("http://localhost:3000/enrollments", enrollmentData);
       alert("Successfully enrolled in the course!");
+
+      navigate("/portal"); // ✅ navigate to portal after success
     } catch (error) {
       console.error("Enrollment failed", error);
     }

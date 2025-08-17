@@ -8,6 +8,7 @@ import Courses from "../pages/Portal/Courses";
 import Quizzes from "../pages/Portal/Quizzes";
 import LearningPortal from "../pages/Portal/LearningPortal";
 import NotFoundPage from "../pages/Portal/NotFoundPage";
+import LearningMaterial from "../pages/Portal/LearningMaterial";
 
 // Admin pages
 import Dashboard from "../admin/Dashboard";
@@ -53,6 +54,12 @@ export const allRoutes = [
   {
     path: "/portal",
     element: LearningPortal,
+    isPrivate: true,
+    role: "user"
+  },
+  {
+    path: "/learning/:id",
+    element: LearningMaterial,
     isPrivate: true,
     role: "user"
   },

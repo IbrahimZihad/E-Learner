@@ -27,16 +27,10 @@ export const AuthProvider = ({ children }) => {
     const isAuthenticated = !!user;
     const role = user?.role || "guest";
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <p className="text-lg font-semibold">Loading...</p>
-            </div>
-        );
-    }
-
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated, role }}>
+        <AuthContext.Provider
+            value={{ user, login, logout, isAuthenticated, role, loading }}
+        >
             {children}
         </AuthContext.Provider>
     );
