@@ -1,52 +1,82 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const LearningMaterial = () => {
-  const { courseId } = useParams();
+export default function LearningMaterial() {
+  const { id } = useParams(); // course id from URL
   const [course, setCourse] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [enrollmentId, setEnrollmentId] = useState(null);
 
+  // Fetch course info
   useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const res = await axios.get(`http://localhost:3000/courses?id=${courseId}`);
-        if (res.data && Object.keys(res.data).length > 0) {
-          setCourse(res.data);
-        } else {
-          setCourse(null);
+    fetch(`http://localhost:3000/courses/${id}`)
+      .then(res => res.json())
+      .then(data => setCourse(data));
+  }, [id]);
+
+  // Fetch enrollment info for this course (assuming userId = 1 for now)
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/enrollments?courseId=${id}&userId=1`)
+      .then(res => {
+        if (res.data.length > 0) {
+          setEnrollmentId(res.data[0].id);
+          setProgress(res.data[0].progress || 0);
         }
-      } catch (err) {
-        console.error("Error fetching course:", err);
-        setCourse(null);
-      } finally {
-        setLoading(false);
+      });
+  }, [id]);
+
+  // Track scroll progress
+  useEffect(() => {
+    const handleScroll = async () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+
+      const scrolled = Math.min(
+        ((scrollTop + windowHeight) / docHeight) * 100,
+        100
+      );
+
+      // Only update if progress increased
+      if (scrolled > progress) {
+        setProgress(scrolled);
+
+        if (enrollmentId) {
+          try {
+            await axios.patch(
+              `http://localhost:3000/enrollments/${enrollmentId}`,
+              { progress: scrolled }
+            );
+          } catch (err) {
+            console.error("Error updating progress", err);
+          }
+        }
       }
     };
 
-    fetchCourse();
-  }, [courseId]);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [progress, enrollmentId]);
 
-  if (loading) return <p className="p-6">Loading course material...</p>;
-  if (!course) return <p className="p-6 text-red-500">Course not found.</p>;
+  if (!course) return <p>Loading...</p>;
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">{course.title}</h1>
-      <p className="mb-4 text-gray-700">{course.description}</p>
+    <div className="p-6 max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6">{course.title}</h1>
 
-      {course.materials && course.materials.length > 0 ? (
-        course.materials.map((material, idx) => (
-          <div key={idx} className="mb-6">
-            <h2 className="text-2xl font-semibold mb-2">{material.section}</h2>
-            <div dangerouslySetInnerHTML={{ __html: material.content }} />
-          </div>
-        ))
-      ) : (
-        <p>No materials uploaded yet for this course.</p>
-      )}
+      {/* Show progress */}
+      <p className="mb-4 text-lg font-medium text-blue-600">
+        Progress: {progress.toFixed(0)}%
+      </p>
+
+      {course.materials.map((m, idx) => (
+        <div key={idx} className="mb-6">
+          <h2 className="text-xl font-semibold mb-2">{m.section}</h2>
+          <div dangerouslySetInnerHTML={{ __html: m.content }} />
+        </div>
+      ))}
     </div>
   );
-};
-
-export default LearningMaterial;
+}
