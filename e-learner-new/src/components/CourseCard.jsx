@@ -1,8 +1,18 @@
 import React from "react";
 
-const CourseCard = ({ course, onClick, progress = 0, isAdmin = false, onEdit, onDelete }) => {
+const CourseCard = ({
+  course,
+  progress = 0,       // ✅ progress prop
+  isAdmin = false,
+  onEdit,
+  onDelete,
+  onClick
+}) => {
   return (
-    <div className="bg-white shadow-md rounded-xl p-5 hover:shadow-lg transition relative">
+    <div
+      className="bg-white shadow-md rounded-xl p-5 hover:shadow-lg transition relative cursor-pointer"
+      onClick={onClick}
+    >
       <img
         src={course.thumbnail}
         alt={course.title}
@@ -15,26 +25,26 @@ const CourseCard = ({ course, onClick, progress = 0, isAdmin = false, onEdit, on
       </p>
 
       {/* Progress bar */}
-      <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+      <div className="w-full bg-gray-200 rounded-full h-2.5 mb-2">
         <div
           className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
           style={{ width: `${progress}%` }}
         ></div>
       </div>
-      <p className="text-sm text-gray-500 mb-2">Progress: {progress}%</p>
+      <p className="text-sm text-gray-500 mb-2">Progress: {progress.toFixed(0)}%</p>
 
       {/* Admin Buttons */}
       {isAdmin && (
         <div className="absolute top-3 right-3 flex gap-2">
           <button
-            onClick={() => onEdit(course)}
+            onClick={(e) => { e.stopPropagation(); onEdit(course); }}
             className="text-yellow-500 hover:text-yellow-700"
             title="Edit"
           >
             ✏️
           </button>
           <button
-            onClick={() => onDelete(course.id)}
+            onClick={(e) => { e.stopPropagation(); onDelete(course.id); }}
             className="text-red-500 hover:text-red-700"
             title="Delete"
           >

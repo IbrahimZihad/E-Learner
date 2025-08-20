@@ -1,22 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import CourseCard from "../../components/CourseCard";
 import QuizCard from "../../components/QuizCard";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const LearningPortal = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [attemptedQuizzes, setAttemptedQuizzes] = useState([]);
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
-  // Fetch enrolled courses
+  // Redirect if not logged in
+  useEffect(() => {
+    if (!user) {
+      alert("You need to log in first!");
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
+  // Fetch enrolled courses with progress
   const fetchCourses = async () => {
+    if (!user) return;
+
     try {
-      const response = await axios.get("http://localhost:3000/enrollments");
-      const validCourses = response.data.filter(
-        (course) => course && course.id && course.title
+      const enrollRes = await axios.get(
+        `http://localhost:3000/enrollments?userId=${user.id}`
       );
-      setEnrolledCourses(validCourses);
+      const enrollments = enrollRes.data;
+
+      // Get full course data and merge progress
+      const coursesData = await Promise.all(
+        enrollments.map(async (enroll) => {
+          const courseRes = await axios.get(
+            `http://localhost:3000/courses/${enroll.courseId}`
+          );
+          return { ...courseRes.data, progress: enroll.progress || 0 };
+        })
+      );
+
+      setEnrolledCourses(coursesData);
     } catch (error) {
       console.error("Failed to fetch courses", error);
     }
@@ -24,12 +47,13 @@ const LearningPortal = () => {
 
   // Fetch attempted quizzes
   const fetchQuizzes = async () => {
+    if (!user) return;
+
     try {
-      const response = await axios.get("http://localhost:3000/attempts");
-      const validQuizzes = response.data.filter(
-        (quiz) => quiz && quiz.id && quiz.title
+      const response = await axios.get(
+        `http://localhost:3000/attempts?userId=${user.id}`
       );
-      setAttemptedQuizzes(validQuizzes);
+      setAttemptedQuizzes(response.data);
     } catch (error) {
       console.error("Failed to fetch quizzes", error);
     }
@@ -38,16 +62,17 @@ const LearningPortal = () => {
   useEffect(() => {
     fetchCourses();
     fetchQuizzes();
-  }, []);
+  }, [user]);
 
-  // ✅ handle click on enrolled course
   const handleCourseClick = (courseId) => {
     navigate(`/learning/${courseId}`);
   };
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Welcome to Your Learning Portal</h1>
+      <h1 className="text-3xl font-bold mb-4">
+        Welcome to Your Learning Portal, {user?.name}
+      </h1>
 
       {/* Enrolled Courses */}
       <div className="mb-8">
@@ -64,13 +89,12 @@ const LearningPortal = () => {
         {enrolledCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {enrolledCourses.map((course) => (
-              <div
+              <CourseCard
                 key={course.id}
-                onClick={() => handleCourseClick(course.id)}
-                className="cursor-pointer"
-              >
-                <CourseCard course={course} />
-              </div>
+                course={course}
+                progress={course.progress || 0} // ✅ pass progress explicitly
+                onClick={() => handleCourseClick(course.id)} // ✅ handle click
+              />
             ))}
           </div>
         ) : (

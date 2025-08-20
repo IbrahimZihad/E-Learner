@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import CourseCard from "../../components/CourseCard";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext"; // ✅ import AuthContext
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext); // ✅ get logged-in user from context
 
   const fetchCourses = async () => {
     try {
@@ -17,22 +19,19 @@ const Courses = () => {
   };
 
   const handleEnroll = async (course) => {
+    if (!user) {
+      alert("You need to log in first!");
+      navigate("/login");
+      return;
+    }
+
     const confirmed = window.confirm(`Do you want to enroll in "${course.title}"?`);
     if (!confirmed) return;
 
     try {
-      // get logged-in user
-      const loggedInUser = JSON.parse(localStorage.getItem("user"));
-      if (!loggedInUser) {
-        alert("You need to log in first!");
-        return;
-      }
-
-      const userId = loggedInUser.id;
-
       // check if user is already enrolled in this course
       const alreadyEnrolled = await axios.get(
-        `http://localhost:3000/enrollments?courseId=${course.id}&userId=${userId}`
+        `http://localhost:3000/enrollments?courseId=${course.id}&userId=${user.id}`
       );
 
       if (alreadyEnrolled.data.length > 0) {
@@ -42,7 +41,7 @@ const Courses = () => {
 
       // minimal enrollment data
       const enrollmentData = {
-        userId,
+        userId: user.id,
         courseId: course.id,
         progress: 0,
       };

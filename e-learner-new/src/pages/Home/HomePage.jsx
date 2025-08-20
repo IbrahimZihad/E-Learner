@@ -1,27 +1,48 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const HomePage = () => {
+  const { isAuthenticated, role, loading } = useContext(AuthContext); // useContext to get auth info
+  const [showPage, setShowPage] = useState(false); // useState to control rendering
+  const navigate = useNavigate();
+
+  // useEffect to check auth status after component mounts
+  useEffect(() => {
+    if (!loading) {
+      if (isAuthenticated) {
+        // Redirect based on role
+        if (role === "user") navigate("/portal");
+        else if (role === "admin") navigate("/admin/dashboard");
+      } else {
+        setShowPage(true); // Show this page only if not authenticated
+      }
+    }
+  }, [isAuthenticated, role, loading, navigate]);
+
+  // Show loading placeholder while auth state is loading
+  if (loading || !showPage) return null;
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* Hero Section */}
       <div id="top">
-      <section className="bg-blue-600 text-white py-20 px-4 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Unlock Your Potential with Our E-Learning Platform
-          </h1>
-          <p className="text-lg md:text-xl mb-6">
-            Learn from experts, track your progress, and gain real-world skills—all at your own pace.
-          </p>
-          <Link
-            to="/signup"
-            className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold shadow hover:bg-gray-100 transition"
-          >
-            Get Started for Free
-          </Link>
-        </div>
-      </section>
+        <section className="bg-blue-600 text-white py-20 px-4 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Unlock Your Potential with Our E-Learning Platform
+            </h1>
+            <p className="text-lg md:text-xl mb-6">
+              Learn from experts, track your progress, and gain real-world skills—all at your own pace.
+            </p>
+            <Link
+              to="/signup"
+              className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold shadow hover:bg-gray-100 transition"
+            >
+              Get Started for Free
+            </Link>
+          </div>
+        </section>
       </div>
 
       {/* Why Us Section */}

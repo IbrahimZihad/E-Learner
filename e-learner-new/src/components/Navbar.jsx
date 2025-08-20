@@ -1,11 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
     const { isAuthenticated, role, logout, loading } = useContext(AuthContext);
+    const [currentPath, setCurrentPath] = useState('');
+    const [isScrolled, setIsScrolled] = useState(false); // Track scroll for sticky effects
     const navigate = useNavigate();
     const location = useLocation();
+
+    // Update current path whenever location changes
+    useEffect(() => {
+        setCurrentPath(location.pathname);
+    }, [location]);
+
+    // Track scroll position
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 10);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     if (loading) return null; // Prevent flicker of wrong navbar
 
@@ -34,7 +50,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="flex items-center justify-between px-6 py-4 bg-white shadow-md sticky top-0 z-50">
+        <nav className={`flex items-center justify-between px-6 py-4 bg-white shadow-md sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'shadow-lg' : ''}`}>
             <div
                 className="text-xl font-bold text-blue-600 cursor-pointer"
                 onClick={handleHomeClick}
